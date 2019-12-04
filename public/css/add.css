@@ -1,0 +1,21 @@
+body{
+    margin: 0;
+    padding: 0;
+}
+
+header{
+    width: 100%;
+    padding: 1rem 2rem;
+    display: flex;
+    align-items: center;
+}
+
+ul li {
+    display: inline-block;
+    margin: 0 1rem;
+}
+
+main{
+    width: 100%;
+    text-align: center;
+}
