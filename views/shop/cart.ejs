@@ -29,6 +29,7 @@
         </div>
 
         <script>
+            var totalPrice =document.querySelector('.totalPrice');
             document.querySelectorAll('.plus').forEach(plus=>{
                 plus.addEventListener('click',function(){
                     var xhr = new XMLHttpRequest();
@@ -41,6 +42,7 @@
                             if(xhr.status === 200){
                                 let ct = document.querySelector(`#${id}`).parentElement.querySelector('.count').innerText;
                                 document.querySelector(`#${id}`).parentElement.querySelector('.count').innerText = Number(ct)+1;
+                                totalPrice.innerText = '$ '+xhr.responseText;
                             }
                         }
                     }    
@@ -64,6 +66,7 @@
                                 if(ct==0){
                                     document.querySelector(`#${id}`).parentElement.remove();
                                 }
+                                totalPrice.innerText = '$ '+xhr.responseText;
                             }
                         }
                     }    

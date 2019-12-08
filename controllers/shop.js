@@ -89,8 +89,9 @@ exports.addCart = (req,res) =>{
     var price;
     Product.getProductById(id,product=>{
         price = product.price;
-        Cart.addProduct(id,price);
-        res.status(200).send('OK');
+        Cart.addProduct(id,price, t=>{
+            res.status(200).send(String(t));
+        });
     })
     
 }
@@ -100,8 +101,10 @@ exports.removeCart = (req,res) =>{
     var price;
     Product.getProductById(id,product=>{
         price=product.price;
-        Cart.deleteProduct(id,price);
-        res.status(200).send('OK');
+        Cart.deleteProduct(id,price, t=>{
+            res.status(200).send(String(t));
+        });
+        
         
     })
     

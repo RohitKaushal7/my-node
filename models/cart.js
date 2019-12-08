@@ -33,6 +33,9 @@ module.exports = class Cart {
             fs.writeFile(p,JSON.stringify(cart),(err)=>{
                 console.log(err);
             })
+            if(cb){
+                cb(cart.totalPrice);
+            }
 
 
         })
@@ -53,6 +56,9 @@ module.exports = class Cart {
                 fs.writeFile(p,JSON.stringify(cart),err=>{
                     console.log(err);
                 })
+                if(cb){
+                    cb(cart.totalPrice);
+                }
             }
         })
     }
