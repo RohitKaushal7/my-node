@@ -1,0 +1,76 @@
+<%- include('../includes/head.ejs') %> 
+    <link rel="stylesheet" href="css/404.css">
+</head>
+<body>
+        <%- include('../includes/nav.ejs') %> 
+
+        <div class="container">
+            <ul class="collection">
+                <% for(prod of data) { %>
+                    <li class="collection-item"><%= prod.productData.title %>  
+                        <span class="badge btn waves-effect green lighten-2 small plus" id="p<%= prod.productData.id %>"><b style="color: white;">+</b></span>
+                        <span class="badge green lighten-4 count"> <%= prod.qty %>  </span>
+                        <span class="badge btn waves-effect red lighten-2 small minus" id="p<%= prod.productData.id %>"><b style="color: white;">-</b></span>
+                    </li>
+                <% } %>              
+            </ul>
+
+            <div class="card blue-grey darken-1">
+                <div class="card-content white-text">
+                    <span class="card-title totalPrice">$ <%= totalPrice %> </span>
+                    <p>Ready to checkout</p>
+                </div>
+                <div class="card-action">
+                    <a href="#">Checkout</a>
+                    <a href="#">Cancel</a>
+                </div>
+            </div>
+            
+        </div>
+
+        <script>
+            document.querySelectorAll('.plus').forEach(plus=>{
+                plus.addEventListener('click',function(){
+                    var xhr = new XMLHttpRequest();
+                    id = this.id;
+                    xhr.open('POST','/cart-add',true);
+                    xhr.setRequestHeader('Content-type','application/x-www-form-urlencoded');
+                    xhr.send(`productId=${id}`);
+                    xhr.onreadystatechange = function (){
+                        if(xhr.readyState === 4){
+                            if(xhr.status === 200){
+                                let ct = document.querySelector(`#${id}`).parentElement.querySelector('.count').innerText;
+                                document.querySelector(`#${id}`).parentElement.querySelector('.count').innerText = Number(ct)+1;
+                            }
+                        }
+                    }    
+                    
+                    
+                })
+            })
+
+            document.querySelectorAll('.minus').forEach(plus=>{
+                plus.addEventListener('click',function(){
+                    var xhr = new XMLHttpRequest();
+                    id = this.id;
+                    xhr.open('POST','/cart-remove',true);
+                    xhr.setRequestHeader('Content-type','application/x-www-form-urlencoded');
+                    xhr.send(`productId=${id}`);
+                    xhr.onreadystatechange = function (){
+                        if(xhr.readyState === 4){
+                            if(xhr.status === 200){
+                                let ct = document.querySelector(`#${id}`).parentElement.querySelector('.count').innerText;
+                                ct = document.querySelector(`#${id}`).parentElement.querySelector('.count').innerText = Number(ct)-1;
+                                if(ct==0){
+                                    document.querySelector(`#${id}`).parentElement.remove();
+                                }
+                            }
+                        }
+                    }    
+                    
+                    
+                })
+            })
+        </script>
+
+<%- include('../includes/end.ejs') %> 

@@ -1,0 +1,45 @@
+<%- include('../includes/head.ejs') %> 
+    <link rel="stylesheet" href="css/404.css">
+</head>
+<body>
+    <%- include('../includes/nav.ejs') %> 
+    <main class="grey lighten-3">
+        
+            <h1 align= center>Shop</h1>
+        
+        <div class="row">
+        <% if ( data.length > 0) { %>
+
+            <% for (p of data) { %>
+
+                <div class="col s12 m3">
+                    <div class="card hoverable">
+                        <div class="card-image">
+                            <img src="<%= p.img %> " alt="">
+                            <div class="card-title"><%= p.title %> </div>
+                        </div>
+                        <div class="card-content prod">
+                            <p style="color:#444"> <em style="color:#777"></em> <br><%= p.desc %></p>
+                            <div class="col s4 right price">$<%= p.price %> </div>
+                        </div>
+                        <div class="card-action ">
+                            <form style="display: inline-block;" action="/edit-product/<%= p.id %> " method="GET">
+                                <button type="submit" class="btn waves-effect blue">Edit</button>
+                                <input type="hidden" name="productId" value="<%= p.id %>" id="">
+                            </form>
+                            <form style="display: inline-block;" action="/delete-product" method="POST">
+                                <button type="submit" class="btn waves-effect red">Delete</button>
+                                <input type="hidden" name="productId" value="<%= p.id %>" id="">
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                
+                <% } %>
+
+        <% } else { %>
+            <h3>No Products here..!</h3>
+            <% } %>
+        </div>
+    </main>
+<%- include('../includes/end.ejs') %> 

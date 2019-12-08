@@ -5,16 +5,22 @@ const bodyParser = require('body-parser')
 
 const admin = require('./routes/admin')
 const shop = require('./routes/shop')
-// const routes = require('./routes')
+const errorController = require('./controllers/error.js')
+
 const app = express();
 
 app.use(bodyParser.urlencoded({extended:false}));
 app.use(express.static(path.join(__dirname,'public')))
 
+// app.set('view engine','pug')
+app.set('view engine','ejs')
+app.set('views','views')
+
 app.use(admin.router);
 app.use(shop.router);
 
-app.use((req,res) => {
-    res.status(404).sendFile(path.join(__dirname,'views','404error.html'))
+app.use('/', errorController.get404)
+
+app.listen(3000,()=>{
+    console.log('runnning at localhost:3000'); 
 })
-app.listen(3000)

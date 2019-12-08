@@ -1,0 +1,13 @@
+h1{
+    color: #f007;
+    font-weight: thin;
+    font-size: 3rem;
+    font-family: 'caviar dreams';
+}
+
+.p404{
+    height: 70vh;
+    width: 100vw;
+
+    justify-content: center;
+}

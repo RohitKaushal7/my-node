@@ -1,0 +1,49 @@
+<%- include('../includes/head.ejs') %> 
+    <link rel="stylesheet" href="/css/404.css">
+</head>
+<body>
+    <%- include('../includes/nav.ejs') %> 
+    <main class="grey lighten-3">
+        <div class="row">
+        <% if (data) { %>
+
+            
+
+                <div class="col s6">
+                    <div class="card hoverable">
+                        <div class="card-image">
+                            <img src="<%= data.img %> " alt="">
+                            <div class="card-title"><%= data.title %> </div>
+                        </div>
+                        <div class="card-content prod">
+                            <p style="color:#444"> <em style="color:#777"></em> <br><%= data.desc %></p>
+                            <div class="col s4 right price">$<%= data.price %> </div>
+                        </div>
+                        <div class="card-action ">
+   
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card col s6">
+                    <div class="card-content">
+                            <div class="card-title"><h3>Here are the details about this Product.</h3></div>
+                            <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Sapiente exercitationem, dolorem enim non odio corrupti neque doloribus. Laudantium deleniti, eos aliquid consectetur quas temporibus! Provident reiciendis asperiores soluta atque nihil?</p>
+
+                    </div>
+                    <div class="card-action">
+                        <form action="/cart" method="POST">
+                            <button type="submit" class="btn-flat waves-effect green lighten-5">Add to Cart</button>
+                            <input type="hidden" name="productId" value="<%= data.id %>">
+                        </form>
+                    </div>
+                </div>
+                
+            
+
+        <% } else { %>
+            <h3>No Products here..!</h3>
+            <% } %>
+        </div>
+    </main>
+<%- include('../includes/end.ejs') %> 

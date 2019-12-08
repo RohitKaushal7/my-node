@@ -1,0 +1,73 @@
+<%- include('../includes/head.ejs') %> 
+    <link rel="stylesheet" href="css/add.css">
+    
+</head>
+<body>
+    <%- include('../includes/nav.ejs') %> 
+    <main>
+        <div class="container form1">
+            <div class="col s6 center">
+                    <div class="row ">
+                        <form method="POST" action="<%= editing ? '/edit-product' : '/add-product' %>" class="col s12">
+                            <div class="row">
+                                <div class="input-field col s12 m6">
+                                    <input required type="text" class="validate" name="title" id="title" value="<%= product ? product.title : '' %>"/>
+                                    <label for="title">Title</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="input-field col s12">
+                                    <input required type="text" class="validate" name="desc" id="desc" value="<%= product ? product.desc : '' %>"/>
+                                    <label for="desc">Description</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                    <div class="input-field col s12 m6">
+                                        <input required type="text" class="validate" name="img" id="img" value="<%= product ? product.img : '' %>"/>
+                                        <label for="img">image url</label>
+                                    </div>
+                                    <div class="input-field col s12 m6">
+                                        <input required type="number" class="validate" name="price" id="price" value="<%= product ? product.price : '' %>"/>
+                                        <label for="price">Price</label>
+                                    </div>
+                                    <% if(editing){ %> 
+                                        <input type="hidden" name="productId" value="<%= product.id %>">
+                                    <% } %> 
+    
+                                </div>
+                               
+                            <div class="row">
+                                <button type="submit" class="btn blue waves-effect waves-dark"><%= editing ? 'Update' : 'Add Product' %> </button>
+                            </div>
+                        </form>
+                    </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- <script>
+        document.querySelector('form').addEventListener('submit',function(e){
+            e.preventDefault();
+            var title = document.querySelector('#title').value;
+            var desc = document.querySelector('#desc').value;
+            var price = document.querySelector('#price').value;
+            var img = document.querySelector('#img').value;
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST','/adding',true);
+            xhr.setRequestHeader('Content-type','application/x-www-form-urlencoded');
+            xhr.send(`title=${title}&desc=${desc}&price=${price}&img=${img}`);
+            xhr.onreadystatechange = function (){
+                if(xhr.readyState === 4){
+                    if(xhr.status === 200){
+                        document.querySelector('button').innerText = 'Product Added';
+                        setTimeout(()=>{
+                            document.querySelector('button').innerText = 'Add';
+                            document.querySelectorAll('input').value = '';
+                        },1000)
+                    }
+                }
+            }
+        
+        }); 
+    </script> -->
+<%- include('../includes/end.ejs') %> 

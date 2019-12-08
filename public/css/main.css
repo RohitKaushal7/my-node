@@ -1,23 +1,30 @@
-body{
-    margin: 0;
-    padding: 0;
+
+.prod{
+    height: 12rem;
+}
+.nav-wrapper{
+    padding:0  2rem;
 }
 
-header{
-    width: 100%;
-    padding: 1rem 2rem;
-    display: flex;
-    background: rgb(201, 201, 201);
-    align-items: center;
+::-webkit-scrollbar{
+    display: none;
 }
 
-ul li {
-    display: inline-block;
-    margin: 0 1rem;
+.price{
+    font-size: 2rem;
+    position: absolute;
+    left: 0;
+    bottom: 0;
 }
 
+
+.card-image{
+    height: 15rem;
+    /* overflow: hidden; */
+}
+.card-content{
+    position: relative;
+}
 main{
-    width: 100%;
-    margin: 1rem 0;
-    text-align: center;
+    padding: 2rem 5rem;
 }
