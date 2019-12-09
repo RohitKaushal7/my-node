@@ -19,8 +19,9 @@
                             <div class="card-title"><%= p.title %> </div>
                         </div>
                         <div class="card-content prod">
+                            <b><%= p.title %> </b>
                             <p style="color:#444"> <em style="color:#777"></em> <br><%= p.desc %></p>
-                            <div class="col s4 right price">$<%= p.price %> </div>
+                            <div class="col s4 right price">$<%= p.price %></div>
                         </div>
                         <div class="card-action ">
                             <form style="display: inline-block;" action="/cart" method="POST">

@@ -4,6 +4,12 @@
 <body>
         <%- include('../includes/nav.ejs') %> 
         <main>
-            Nothing here..
+            <div class="container">
+                    <div class="carousel">
+                        <% for (prod of data) {%> 
+                            <div class="carousel-item"><img src="<%= prod.img %> "></div>
+                        <% } %> 
+                    </div>
+            </div>
         </main>
 <%- include('../includes/end.ejs') %> 

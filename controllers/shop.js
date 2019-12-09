@@ -69,11 +69,13 @@ exports.getCart = (req,res) =>{
 }
 
 exports.getOrders = (req,res) =>{
-    res.render('shop/orders',{
-        // data: products,
-        title: 'Orders',
-        path:'/orders'
-    });
+    Product.fetchAll(products=>{
+        res.render('shop/orders',{
+            data: products,
+            title: 'Orders',
+            path:'/orders'
+        });
+    })
 }
 
 exports.checkout = (req,res) =>{

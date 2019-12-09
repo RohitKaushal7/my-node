@@ -19,11 +19,12 @@
                             <div class="card-title"><%= p.title %> </div>
                         </div>
                         <div class="card-content prod">
+                            <b><%= p.title %> </b>
                             <p style="color:#444"> <em style="color:#777"></em> <br><%= p.desc %></p>
-                            <div class="col s4 right price">$<%= p.price %> </div>
+                            <div class="col s4 right price">$<%= p.price %></div>
                         </div>
                         <div class="card-action ">
-                            <form class="tocart" style="display: inline-block;" method="POST">
+                            <form style="display: inline-block;" action="/cart" method="POST">
                                 <button type="submit" class="btn-flat waves-effect green lighten-5">Add to Cart</button>
                                 <input type="hidden" name="productId" value="<%= p.id %>">
                             </form>
@@ -42,25 +43,4 @@
             <% } %>
         </div>
     </main>
-
-    <script>
-        document.querySelectorAll('.tocart').forEach(plus=>{
-                plus.addEventListener('submit',function(e){
-                    e.preventDefault();
-                    var xhr = new XMLHttpRequest();
-                    id = this.productId.value;
-                    xhr.open('POST','/cart',true);
-                    xhr.setRequestHeader('Content-type','application/x-www-form-urlencoded');
-                    xhr.send(`productId=${id}`);
-                    xhr.onreadystatechange = function (){
-                        if(xhr.readyState === 4){
-                            if(xhr.status === 200){
-                                M.toast({html: 'Product Added.!'})
-                                }
-                            }
-                        }
-                    })
-            })
-    </script>
-
 <%- include('../includes/end.ejs') %> 

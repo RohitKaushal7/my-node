@@ -5,7 +5,7 @@
         <%- include('../includes/nav.ejs') %> 
 
         <div class="container">
-            <ul class="collection">
+            <!-- <ul class="collection">
                 <% for(prod of data) { %>
                     <li class="collection-item"><%= prod.productData.title %>  
                         <span class="badge btn waves-effect green lighten-2 small plus" id="p<%= prod.productData.id %>"><b style="color: white;">+</b></span>
@@ -13,11 +13,31 @@
                         <span class="badge btn waves-effect red lighten-2 small minus" id="p<%= prod.productData.id %>"><b style="color: white;">-</b></span>
                     </li>
                 <% } %>              
+            </ul> -->
+        
+            <ul class="collapsible" data-collapsible="expandable">
+                <% for(prod of data) { %>
+                    <li>
+                        <div class="collapsible-header"  style="display: block;">
+                            <b><%= prod.productData.title %></b> 
+                            <span class="badge green darken-2 white-text out-count"><b> x<%= prod.qty %></b> </span>
+                            <span class="badge green lighten white-text"><b><%= prod.productData.price %></b> </span>
+                        </div>
+                        <div class="collapsible-body">
+                            <p><%= prod.productData.desc %> </p>
+                            <img src="<%= prod.productData.img %> " width="10%" alt="">
+                            <span class="badge btn waves-effect green lighten-2 small plus" id="p<%= prod.productData.id %>"><b style="color: white;">+</b></span>
+                            <span class="badge green lighten-4 count"> <%= prod.qty %>  </span>
+                            <span class="badge btn waves-effect red lighten-2 small minus" id="p<%= prod.productData.id %>"><b style="color: white;">-</b></span>
+                        
+                        </div>
+                    </li>
+                <% } %>              
             </ul>
 
-            <div class="card blue-grey darken-1">
+            <div class="card grey darken-4 hoverable">
                 <div class="card-content white-text">
-                    <span class="card-title totalPrice">$ <%= totalPrice %> </span>
+                    <span class="card-title totalPrice">$ <%= totalPrice %> /- </span>
                     <p>Ready to checkout</p>
                 </div>
                 <div class="card-action">
@@ -41,7 +61,8 @@
                         if(xhr.readyState === 4){
                             if(xhr.status === 200){
                                 let ct = document.querySelector(`#${id}`).parentElement.querySelector('.count').innerText;
-                                document.querySelector(`#${id}`).parentElement.querySelector('.count').innerText = Number(ct)+1;
+                                ct = document.querySelector(`#${id}`).parentElement.querySelector('.count').innerText = Number(ct)+1;
+                                document.querySelector(`#${id}`).parentElement.parentElement.querySelector('.out-count > b').innerText ='x'+ ct;
                                 totalPrice.innerText = '$ '+xhr.responseText;
                             }
                         }
@@ -63,8 +84,9 @@
                             if(xhr.status === 200){
                                 let ct = document.querySelector(`#${id}`).parentElement.querySelector('.count').innerText;
                                 ct = document.querySelector(`#${id}`).parentElement.querySelector('.count').innerText = Number(ct)-1;
+                                document.querySelector(`#${id}`).parentElement.parentElement.querySelector('.out-count > b').innerText ='x'+ ct;
                                 if(ct==0){
-                                    document.querySelector(`#${id}`).parentElement.remove();
+                                    document.querySelector(`#${id}`).parentElement.parentElement.remove();
                                 }
                                 totalPrice.innerText = '$ '+xhr.responseText;
                             }

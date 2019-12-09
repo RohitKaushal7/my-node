@@ -1,8 +1,9 @@
 <header>
     <div class="navbar-fixed">
         <nav>
-            <div class="nav-wrapper teal">
+            <div class="nav-wrapper grey darken-4">
                 <a href="/" class="brand-logo">My Shop</a>
+                <a href="#" data-target="mobile" class="sidenav-trigger"><b>|||</b></a>
                 <ul class="right hide-on-med-and-down">
                     <li class=" <%= path == '/'?'active':'' %> "><a href="/">Shop</a></li>
                     <li class=" <%= path == '/products'?'active':'' %> "><a href="/products">Products</a></li>
@@ -13,5 +14,13 @@
                 </ul>
             </div>
         </nav>
+        <ul class="sidenav" id="mobile" style="z-index: 100;">
+                <li class=" <%= path == '/'?'active':'' %> "><a href="/">Shop</a></li>
+                <li class=" <%= path == '/products'?'active':'' %> "><a href="/products">Products</a></li>
+                <li class=" <%= path == '/cart'?'active':'' %> "><a href="/cart">Cart</a></li>
+                <li class=" <%= path == '/orders'?'active':'' %> "><a href="/orders">Orders</a></li>
+                <!-- <li class=" <%= path == '/admin-products'?'active':'' %> "><a href="/admin-products">Admin Product</a></li> -->
+                <li class=" <%= path == '/add-product'?'active':'' %> "><a href="/add-product">Add Product</a></li>
+        </ul>
     </div>
 </header>

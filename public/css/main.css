@@ -1,6 +1,12 @@
 
 .prod{
-    height: 12rem;
+    height: 10rem;
+}
+.prod > p{
+    height: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 .nav-wrapper{
     padding:0  2rem;
@@ -11,20 +17,52 @@
 }
 
 .price{
-    font-size: 2rem;
+    font-size: 1.5rem;
+    color: green;
     position: absolute;
-    left: 0;
+    left: 1rem !important;
     bottom: 0;
 }
 
+.card{
+    overflow: hidden;
+}
 
 .card-image{
-    height: 15rem;
-    /* overflow: hidden; */
+    overflow: hidden;
+    height: 12rem;
 }
-.card-content{
+.card-image>img{
+    overflow: hidden;
+    min-height: 100%;
+    min-width: 100%;
+    /* width: auto; */
+    transition: transform 0.3s;
+}
+.card-image>img:hover{
+    transform: scale(1.1);
+}
+.card .card-content{
     position: relative;
+    padding-bottom: 3rem;
+}
+.card-title{
+    font-weight: bold;
+    /* color: black; */
 }
 main{
     padding: 2rem 5rem;
+}
+
+.sidenav-overlay{
+    z-index: 50;
+}
+
+@media (max-width:980px){
+    main{
+        padding: 1rem 1rem;
+    }
+    .prod{
+        height: auto;
+    }
 }
