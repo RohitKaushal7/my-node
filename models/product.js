@@ -1,22 +1,4 @@
-const fs = require('fs')
-const path = require('path')
-
-const p = path.join(
-    path.dirname(process.mainModule.filename),
-    'data',
-    'products.json'
-    );
-
-const getProductsFromFile = cb => {
-    fs.readFile(p,(err,data)=>{
-        if(err){
-            return cb([]);
-        }
-        cb(JSON.parse(data)); 
-    })
-}
-
-
+const db = require('../utils/database')
 module.exports = class Product {
     constructor(id,t,d,p,img){
         this.id = id;
@@ -27,45 +9,19 @@ module.exports = class Product {
     }
 
     save(){
-        if(this.id){
-            getProductsFromFile(products => {
-                let existingProductIndex = products.findIndex(x=> x.id == this.id);
-                let updatedProducts = [...products];
-                updatedProducts[existingProductIndex] = this;
-                fs.writeFile(p,JSON.stringify(updatedProducts),(err)=>{
-                    console.log(err);
-                })
-            })
-        }
-        else{
-            this.id = parseInt(Math.random()*10000000).toString();
-            getProductsFromFile(products => {
-                products.push(this);
-                fs.writeFile(p,JSON.stringify(products),(err)=>{
-                    console.log(err);
-                })
-            })
-        }
+        return db.execute('INSERT INTO products (`title`, `desc`, `price`, `img`) VALUES (?,?,?,?)',[this.title,this.desc,this.price,this.img]);
+        
     }
 
     static delete(id){
-        getProductsFromFile(products=>{
-            const index = products.findIndex(x => x.id == id);
-            products.splice(index,1);
-            fs.writeFile(p,JSON.stringify(products),(err)=>{
-                console.log(err);
-            })
-        })
+        
     }
 
-    static fetchAll(cb) {
-        getProductsFromFile(cb);
+    static fetchAll() {
+        return db.execute('select * from products');
     }
 
-    static getProductById(id,cb){
-        getProductsFromFile(products => {
-            let product = products.find(p=> p.id == id);
-            cb(product);
-        });
+    static getProductById(id){
+        return db.execute('select * from products where products.id = ?',[id]);
     }
 }

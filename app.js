@@ -9,6 +9,10 @@ const errorController = require('./controllers/error.js')
 
 const app = express();
 
+const db = require('./utils/database');
+
+// db.execute('select * from products').then(result=> {console.log(result)}).catch(err=>{console.log(err);})
+
 app.use(bodyParser.urlencoded({extended:false}));
 app.use(express.static(path.join(__dirname,'public')))
 

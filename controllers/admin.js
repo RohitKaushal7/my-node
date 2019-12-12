@@ -29,8 +29,14 @@ exports.getEditPage = (req,res,next)=>{
 exports.postProduct = (req,res) => {
     console.log(req.body);
     const product = new Product(null,req.body.title,req.body.desc,req.body.price,req.body.img);
-    product.save();
-    res.redirect('/');
+    product.save()
+        .then(()=>{
+            res.redirect('/');
+        })
+        .catch(err=>{
+            console.log(err);
+        })
+    
 }
 
 exports.postEditProduct = (req,res) => {
