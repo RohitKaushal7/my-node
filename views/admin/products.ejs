@@ -23,13 +23,13 @@
                             <div class="col s4 right price">$<%= p.price %> </div>
                         </div>
                         <div class="card-action ">
-                            <form style="display: inline-block;" action="/edit-product/<%= p.id %> " method="GET">
+                            <form style="display: inline-block;" action="/edit-product/<%= p._id %> " method="GET">
                                 <button type="submit" class="btn waves-effect blue">Edit</button>
-                                <input type="hidden" name="productId" value="<%= p.id %>" id="">
+                                <input type="hidden" name="productId" value="<%= p._id %>" id="">
                             </form>
                             <form style="display: inline-block;" action="/delete-product" method="POST">
                                 <button type="submit" class="btn waves-effect red">Delete</button>
-                                <input type="hidden" name="productId" value="<%= p.id %>" id="">
+                                <input type="hidden" name="productId" value="<%= p._id %>" id="">
                             </form>
                         </div>
                     </div>

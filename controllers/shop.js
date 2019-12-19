@@ -5,9 +5,9 @@ const Cart = require('../models/cart')
 
 exports.getHome = (req,res)=>{
     Product.fetchAll()
-        .then(([rows, fieldData])=>{
+        .then(products =>{
             res.render('shop/index',{
-                data: rows,
+                data: products,
                 title: 'My Shop',
                 path:'/'});
         })
@@ -18,11 +18,11 @@ exports.getHome = (req,res)=>{
 
 exports.getProducts = (req,res,next)=>{
     Product.fetchAll()
-        .then(([rows, fieldData])=>{
-            res.render('shop/product-list',{
-                data: rows,
-                title: 'Products',
-                path:'/products'});
+        .then(products =>{
+            res.render('shop/index',{
+                data: products,
+                title: 'My Shop',
+                path:'/'});
         })
         .catch(err => {
             console.log(err);
@@ -33,10 +33,11 @@ exports.getProductDetail = (req,res) =>{
     id = req.params.productId;
     console.log(id);
     Product.getProductById(id)
-        .then(([rows])=>{
+        .then( product => {
+            console.log(product);
             res.render('shop/product-detail',{
-                data: rows[0],
-                title: rows[0].title,
+                data: product,
+                title: product.title,
                 path: '/product-detail'
         })
     })
@@ -47,41 +48,39 @@ exports.getProductDetail = (req,res) =>{
 
 exports.postCart = (req,res) =>{
     const id = req.body.productId;
-    Product.getProductById(id,product=>{
-        Cart.addProduct(id,product.price);
+    Product.getProductById(id)
+    .then( product=> {
+        return req.user.addToCart(product);
+    })
+    .then(result=>{
+        console.log('Added to Cart')
+    })
+    .catch(err=>{
+        console.log(err);
     })
     res.redirect('/');
 }
 
 
 exports.getCart = (req,res) =>{
-    Cart.getCart(cart=>{
-        if(cart){
-            Product.fetchAll(products=>{
-                const cartProducts = [];
-                for(product of products){
-                    cartProduct = cart.products.find(prod => prod.id == product.id);
-                    if(cartProduct){
-                        cartProducts.push({productData : product, qty : cartProduct.qty})
-                    }
-                }
-                // console.log(cartProducts);
-                res.render('shop/cart',{
-                    data: cartProducts,
-                    totalPrice: cart.totalPrice,
-                    title: 'Cart',
-                    path:'/cart'
-                });
-            })
-        }
+req.user.getCart()
+    .then(cartProducts=>{
+        res.render('shop/cart',{
+            data: cartProducts,
+            totalPrice: req.user.cart.total,
+            title: 'Cart',
+            path:'/cart'
+        });
+    
     })
     
 }
 
 exports.getOrders = (req,res) =>{
-    Product.fetchAll(products=>{
+    req.user.getOrders()
+    .then(orders=>{
         res.render('shop/orders',{
-            data: products,
+            orders: orders,
             title: 'Orders',
             path:'/orders'
         });
@@ -89,6 +88,7 @@ exports.getOrders = (req,res) =>{
 }
 
 exports.checkout = (req,res) =>{
+    req.user.addOrder();
     res.render('shop/checkout',{
         // data: products,
         title: 'checkout',
@@ -99,25 +99,25 @@ exports.checkout = (req,res) =>{
 exports.addCart = (req,res) =>{
     const id = req.body.productId.split('p')[1];
     var price;
-    Product.getProductById(id,product=>{
+    Product.getProductById(id)
+    .then(product => {
         price = product.price;
-        Cart.addProduct(id,price, t=>{
-            res.status(200).send(String(t));
-        });
+        req.user.addToCart(product)
+            .then(result =>{
+                res.status(200).send(String(req.user.cart.total));    
+            })
     })
-    
 }
 
 exports.removeCart = (req,res) =>{
     const id = req.body.productId.split('p')[1];
     var price;
-    Product.getProductById(id,product=>{
-        price=product.price;
-        Cart.deleteProduct(id,price, t=>{
-            res.status(200).send(String(t));
-        });
-        
-        
+    Product.getProductById(id)
+    .then(product => {
+        price = product.price;
+        req.user.deleteFromCart(product)
+            .then(result =>{
+                res.status(200).send(String(req.user.cart.total));    
+            })
     })
-    
 }

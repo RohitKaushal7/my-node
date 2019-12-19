@@ -24,11 +24,11 @@
                             <div class="col s4 right price">$<%= p.price %></div>
                         </div>
                         <div class="card-action ">
-                            <form style="display: inline-block;" action="/cart" method="POST">
+                            <form style="display: inline-block;" action="/cart" id="<%= p._id %>" method="POST">
                                 <button type="submit" class="btn-flat waves-effect green lighten-5">Add to Cart</button>
-                                <input type="hidden" name="productId" value="<%= p.id %>">
+                                <input type="hidden" name="productId" value="<%= p._id %>">
                             </form>
-                            <form style="display: inline-block;" action="/products/<%= p.id %>" method="GET">
+                            <form style="display: inline-block;" action="/products/<%= p._id %>" method="GET">
                                     <button type="submit" class="btn-flat waves-effect green lighten-5">See More</button>
                                 </form>
                                 
@@ -43,4 +43,28 @@
             <% } %>
         </div>
     </main>
+
+    <script>
+
+        document.querySelectorAll('form[action="/cart"]').forEach(f=>{
+            f.addEventListener('submit', function(e){
+                e.preventDefault();
+                var xhr = new XMLHttpRequest();
+                id = this.id;
+                console.log(this)
+                xhr.open('POST','/cart',true);
+                xhr.setRequestHeader('Content-type','application/x-www-form-urlencoded');
+                xhr.send(`productId=${id}`);
+                xhr.onreadystatechange = function (){
+                    if(xhr.readyState === 4){
+                        if(xhr.status === 200){
+                            M.toast({html:'Added to Cart'});
+                        }
+                    }
+                }
+            })
+        }) 
+        
+    </script>
+
 <%- include('../includes/end.ejs') %> 
