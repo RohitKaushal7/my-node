@@ -9,8 +9,12 @@
                     <li class=" <%= path == '/products'?'active':'' %> "><a href="/products">Products</a></li>
                     <li class=" <%= path == '/cart'?'active':'' %> "><a href="/cart">Cart</a></li>
                     <li class=" <%= path == '/orders'?'active':'' %> "><a href="/orders">Orders</a></li>
-                    <li class=" <%= path == '/admin-products'?'active':'' %> "><a href="/admin-products">Admin Product</a></li>
-                    <li class=" <%= path == '/add-product'?'active':'' %> "><a href="/add-product">Add Product</a></li>
+                    <% if(isAuthenticated) { %>
+                        <li class=" <%= path == '/admin-products'?'active':'' %> "><a href="/admin-products">Admin Product</a></li>
+                        <li class=" <%= path == '/add-product'?'active':'' %> "><a href="/add-product">Add Product</a></li> 
+                    <% } %> 
+                    <li> | </li>
+                    <li class=" <%= path == '/login'?'active':'' %> "><a href="/login">Login</a></li>
                 </ul>
             </div>
         </nav>

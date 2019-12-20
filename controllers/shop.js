@@ -9,7 +9,10 @@ exports.getHome = (req,res)=>{
             res.render('shop/index',{
                 data: products,
                 title: 'My Shop',
-                path:'/'});
+                path:'/',
+                isAuthenticated: req.isLoggedIn
+            });
+                
         })
         .catch(err => {
             console.log(err);
@@ -22,7 +25,9 @@ exports.getProducts = (req,res,next)=>{
             res.render('shop/index',{
                 data: products,
                 title: 'My Shop',
-                path:'/'});
+                path:'/',
+                isAuthenticated: req.isLoggedIn
+            });
         })
         .catch(err => {
             console.log(err);
@@ -38,7 +43,8 @@ exports.getProductDetail = (req,res) =>{
             res.render('shop/product-detail',{
                 data: product,
                 title: product.title,
-                path: '/product-detail'
+                path: '/product-detail',
+                isAuthenticated: req.isLoggedIn
         })
     })
     .catch(err => {
@@ -70,7 +76,8 @@ req.user.populate('cart.items.productId').execPopulate()
             data: user.cart.items,
             totalPrice: req.user.cart.total,
             title: 'Cart',
-            path:'/cart'
+            path:'/cart',
+            isAuthenticated: req.isLoggedIn
         });
     
     })
@@ -80,11 +87,12 @@ req.user.populate('cart.items.productId').execPopulate()
 exports.getOrders = (req,res) =>{
     Order.find({'user':req.user._id}).populate(`user cart.items.productId`)
     .then(orders=>{
-        console.log(orders)
+        // console.log(orders)
         res.render('shop/orders',{
             orders: orders,
             title: 'Orders',
-            path:'/orders'
+            path:'/orders',
+            isAuthenticated: req.isLoggedIn
         });
     })
 }
@@ -101,7 +109,8 @@ exports.checkout = (req,res) =>{
     res.render('shop/checkout',{
         // data: products,
         title: 'checkout',
-        path:'/checkout'
+        path:'/checkout',
+        isAuthenticated: req.isLoggedIn
     });
 }
 

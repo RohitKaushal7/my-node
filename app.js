@@ -3,9 +3,11 @@ const path = require('path')
 const express = require('express')
 const bodyParser = require('body-parser')
 const mongoose = require('mongoose')
+const session = require('express-session')
 
 const admin = require('./routes/admin')
 const shop = require('./routes/shop')
+const auth = require('./routes/auth')
 const errorController = require('./controllers/error.js')
 
 
@@ -18,6 +20,14 @@ app.set('views','views')
 
 app.use(bodyParser.urlencoded({extended:false}));
 app.use(express.static(path.join(__dirname,'public')))
+app.use(
+    session({
+        secret: 'my secret',
+        resave: false,
+        saveUninitialized: false
+    })
+);
+
 app.use((req,res,next)=>{
     User.findById('5dfb73ce34b67f155b5ab878')
         .then(user=>{
@@ -32,6 +42,7 @@ app.use((req,res,next)=>{
 
 app.use(admin.router);
 app.use(shop.router);
+app.use(auth);
 
 app.use('/', errorController.get404)
 
