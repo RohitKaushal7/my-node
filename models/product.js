@@ -1,38 +1,31 @@
-const mongodb = require('mongodb')
-const getDb = require('../utils/database').getDb;
+const mongoose = require('mongoose')
 
-class Product {
-    constructor(title,desc,price,img,id,userId){
-        this.title = title;
-        this.desc = desc;
-        this.price = price;
-        this.img = img;
-        this._id = id ? mongodb.ObjectId(id) : null;
-        this.userId = userId;
+const productSchema = new mongoose.Schema({
+    title: {
+        type: String,
+        required: true
+    },
+    price: {
+        type: Number,
+        required: true
+    },
+    desc: {
+        type: String,
+        required: true
+    },
+    img: {
+        type: String,
+        required: true
+    },
+    userId:{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        required: true
+
     }
+})
 
-    save(){
-        const db = getDb();
-        if(this._id){
-            return db.collection('products').updateOne({_id : this._id},{$set: this});    
-        }
-        return db.collection('products').insertOne(this);
-    }
+module.exports = mongoose.model('Product',productSchema);
 
-    static fetchAll(){
-        const db = getDb();
-        return db.collection('products').find().toArray();
-    }
 
-    static getProductById(id){
-        const db = getDb();
-        return db.collection('products').find({_id : mongodb.ObjectId(id)}).next();
-    }
 
-    static delete(id){
-        const db = getDb();
-        return db.collection('products').remove({_id : mongodb.ObjectId(id)});
-    }
-}
-
-module.exports = Product;

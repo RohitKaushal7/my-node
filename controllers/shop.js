@@ -1,10 +1,10 @@
 const Product = require('../models/product')
-const Cart = require('../models/cart')
+const Order = require('../models/order')
 
 // Exports ...
 
 exports.getHome = (req,res)=>{
-    Product.fetchAll()
+    Product.find()
         .then(products =>{
             res.render('shop/index',{
                 data: products,
@@ -17,7 +17,7 @@ exports.getHome = (req,res)=>{
 }
 
 exports.getProducts = (req,res,next)=>{
-    Product.fetchAll()
+    Product.find()
         .then(products =>{
             res.render('shop/index',{
                 data: products,
@@ -32,7 +32,7 @@ exports.getProducts = (req,res,next)=>{
 exports.getProductDetail = (req,res) =>{
     id = req.params.productId;
     console.log(id);
-    Product.getProductById(id)
+    Product.findById(id)
         .then( product => {
             console.log(product);
             res.render('shop/product-detail',{
@@ -48,7 +48,7 @@ exports.getProductDetail = (req,res) =>{
 
 exports.postCart = (req,res) =>{
     const id = req.body.productId;
-    Product.getProductById(id)
+    Product.findById(id)
     .then( product=> {
         return req.user.addToCart(product);
     })
@@ -63,10 +63,11 @@ exports.postCart = (req,res) =>{
 
 
 exports.getCart = (req,res) =>{
-req.user.getCart()
-    .then(cartProducts=>{
+req.user.populate('cart.items.productId').execPopulate()
+    .then(user=>{
+        // console.log(user.cart.items)
         res.render('shop/cart',{
-            data: cartProducts,
+            data: user.cart.items,
             totalPrice: req.user.cart.total,
             title: 'Cart',
             path:'/cart'
@@ -77,8 +78,9 @@ req.user.getCart()
 }
 
 exports.getOrders = (req,res) =>{
-    req.user.getOrders()
+    Order.find({'user':req.user._id}).populate(`user cart.items.productId`)
     .then(orders=>{
+        console.log(orders)
         res.render('shop/orders',{
             orders: orders,
             title: 'Orders',
@@ -88,7 +90,14 @@ exports.getOrders = (req,res) =>{
 }
 
 exports.checkout = (req,res) =>{
-    req.user.addOrder();
+    let order = new Order({
+        cart: req.user.cart,
+        user: req.user
+    });
+    order.save().then(result=>{
+        req.user.cart = {items:[],total:0};
+        req.user.save();
+    })
     res.render('shop/checkout',{
         // data: products,
         title: 'checkout',
@@ -99,7 +108,7 @@ exports.checkout = (req,res) =>{
 exports.addCart = (req,res) =>{
     const id = req.body.productId.split('p')[1];
     var price;
-    Product.getProductById(id)
+    Product.findById(id)
     .then(product => {
         price = product.price;
         req.user.addToCart(product)
@@ -112,7 +121,7 @@ exports.addCart = (req,res) =>{
 exports.removeCart = (req,res) =>{
     const id = req.body.productId.split('p')[1];
     var price;
-    Product.getProductById(id)
+    Product.findById(id)
     .then(product => {
         price = product.price;
         req.user.deleteFromCart(product)

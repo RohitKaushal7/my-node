@@ -13,7 +13,7 @@ exports.getEditPage = (req,res,next)=>{
     id = req.params.productId;
     console.log(id);
     
-    Product.getProductById(id)
+    Product.findById(id)
         .then( product=>{
             res.render('admin/edit-product',{
                 product: product,
@@ -27,7 +27,7 @@ exports.getEditPage = (req,res,next)=>{
 
 exports.postProduct = (req,res) => {
     // console.log(req.body);
-    const product = new Product(req.body.title,req.body.desc,req.body.price,req.body.img,null,req.user._id);
+    const product = new Product({title: req.body.title,desc: req.body.desc,price: req.body.price, img: req.body.img, userId: req.user});
     product.save()
         .then((result)=>{
             res.redirect('/');
@@ -41,27 +41,35 @@ exports.postProduct = (req,res) => {
 
 exports.postEditProduct = (req,res) => {
     // console.log(req.body);
-    const product = new Product(req.body.title,req.body.desc,req.body.price,req.body.img,req.body.productId,req.user._id);
-    product.save()
-        .then(()=>{
-            console.log('UPDATED product')
+    Product.findById(req.body.productId)
+        .then(product=>{
+            product.title = req.body.title;
+            product.desc = req.body.desc;
+            product.price = req.body.price;
+            product.img = req.body.img;
+            return product.save();
         })
-        .catch(err=>{
-            console.log(err);
-        })
+            .then(()=>{
+                console.log('UPDATED product')
+            })
+            .catch(err=>{
+                console.log(err);
+            })
     res.redirect('/admin-products');
 }
 
 exports.deleteProduct = (req,res) => {
-    console.log(req.body);
-    Product.delete(req.body.productId);
+    // console.log(req.body);
+    Product.findByIdAndDelete(req.body.productId).then(result=>{
+        console.log('DELETED..!')
+    });
     res.redirect('/admin-products')
     
 }
 
 
 exports.getAdminProducts = (req,res) => {
-    Product.fetchAll()
+    Product.find()
         .then( products =>{
             res.render('admin/products',{
                 data: products,

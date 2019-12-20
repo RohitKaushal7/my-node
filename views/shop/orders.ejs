@@ -5,23 +5,28 @@
         <%- include('../includes/nav.ejs') %> 
         <main>
             <div class="container">
-                <% for(order of orders) { %> 
-                    <div class="card ">
-                        <div class="card-content">
-                            <span class="card-title">Order # <%= order._id %>  </span>
-                            <ul class="collection">
-                                <% for (prod of order.products) { %>
-                                    <li class="collection-item"> <%= prod.title %> <span class="badge green white-text"><%= prod.qty %> </span> </li>
-                                <% } %>  
-                            </ul>
-                            <div class=" blue-text green lighten-4"><b> <%= order.user.name %> </b> | <%= order.user._id %> </div>
+                <% if(orders){ %>
+                    <% for(order of orders) { %> 
+                        <div class="card ">
+                            <div class="card-content">
+                                <span class="card-title">Order # <%= order._id %>  </span>
+                                <ul class="collection">
+                                    <% if(order.cart.items.length){ %>  
+                                        <% for (prod of order.cart.items) { %>
+                                            <li class="collection-item"> <%= prod.productId.title %> <span class="badge green white-text">x<%= prod.qty %> </span><span class="badge green white-text"><%= prod.productId.price %> </span> </li>
+                                        <% } %>
+                                    <% } %>   
+                                </ul>
+                                <span class="card-title green lighten-2 white-text" style="padding:0.1rem 1rem;" align=right><b>$ <%= order.cart.total %> /-</b>  </span>
+                                <div class=" blue-text green lighten-4"><b> <%= order.user.name %> </b> | <%= order.user._id %> </div>
+                            </div>
+                            <div class="card-action">
+                                <a href="#" class="blue-text">Delivered</a>
+                                <a href="#" class="grey-text">Cancel</a>
+                            </div>
                         </div>
-                        <div class="card-action">
-                            <a href="#" class="blue-text">Delivered</a>
-                            <a href="#" class="grey-text">Cancel</a>
-                        </div>
-                    </div>
-                <% } %> 
+                    <% } %>
+                <% } %>   
             </div>
         </main>
 <%- include('../includes/end.ejs') %> 

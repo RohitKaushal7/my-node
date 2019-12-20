@@ -7,10 +7,10 @@
         <div class="container">
             <!-- <ul class="collection">
                 <% for(prod of data) { %>
-                    <li class="collection-item"><%= prod.title %>  
-                        <span class="badge btn waves-effect green lighten-2 small plus" id="p<%= prod._id %>"><b style="color: white;">+</b></span>
+                    <li class="collection-item"><%= prod.productId.title %>  
+                        <span class="badge btn waves-effect green lighten-2 small plus" id="p<%= prod.productId._id %>"><b style="color: white;">+</b></span>
                         <span class="badge green lighten-4 count"> <%= prod.qty %>  </span>
-                        <span class="badge btn waves-effect red lighten-2 small minus" id="p<%= prod._id %>"><b style="color: white;">-</b></span>
+                        <span class="badge btn waves-effect red lighten-2 small minus" id="p<%= prod.productId._id %>"><b style="color: white;">-</b></span>
                     </li>
                 <% } %>              
             </ul> -->
@@ -19,16 +19,16 @@
                 <% for(prod of data) { %>
                     <li>
                         <div class="collapsible-header"  style="display: block;">
-                            <b><%= prod.title %></b> 
+                            <b><%= prod.productId.title %></b> 
                             <span class="badge green darken-2 white-text out-count"><b> x<%= prod.qty %></b> </span>
-                            <span class="badge green lighten white-text"><b><%= prod.price %></b> </span>
+                            <span class="badge green lighten white-text"><b><%= prod.productId.price %></b> </span>
                         </div>
                         <div class="collapsible-body">
-                            <p><%= prod.desc %> </p>
-                            <img src="<%= prod.img %> " width="10%" alt="">
-                            <span class="badge btn waves-effect green lighten-2 small plus" id="p<%= prod._id %>"><b style="color: white;">+</b></span>
+                            <p><%= prod.productId.desc %> </p>
+                            <img src="<%= prod.productId.img %> " width="10%" alt="">
+                            <span class="badge btn waves-effect green lighten-2 small plus" id="p<%= prod.productId._id %>"><b style="color: white;">+</b></span>
                             <span class="badge green lighten-4 count"> <%= prod.qty %>  </span>
-                            <span class="badge btn waves-effect red lighten-2 small minus" id="p<%= prod._id %>"><b style="color: white;">-</b></span>
+                            <span class="badge btn waves-effect red lighten-2 small minus" id="p<%= prod.productId._id %>"><b style="color: white;">-</b></span>
                         
                         </div>
                     </li>
