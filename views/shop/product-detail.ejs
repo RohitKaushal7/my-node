@@ -33,10 +33,12 @@
 
                     </div>
                     <div class="card-action">
-                        <form action="/cart" method="POST">
-                            <button type="submit" class="btn-flat waves-effect green lighten-5">Add to Cart</button>
-                            <input type="hidden" name="productId" value="<%= data._id %>">
-                        </form>
+                        <% if(isAuthenticated){ %> 
+                            <form action="/cart" method="POST">
+                                <button type="submit" class="btn-flat waves-effect green lighten-5">Add to Cart</button>
+                                <input type="hidden" name="productId" value="<%= data._id %>">
+                            </form>
+                        <% } %> 
                     </div>
                 </div>
                 

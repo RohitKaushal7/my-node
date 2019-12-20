@@ -6,7 +6,7 @@ exports.getAddPage = (req,res,next)=>{
         editing: false,
         title:'Add Product',
         path:'/add-product',
-        isAuthenticated: req.isLoggedIn
+        isAuthenticated: req.session.isLoggedIn
     })
 }
 
@@ -21,7 +21,7 @@ exports.getEditPage = (req,res,next)=>{
                 editing: true,
                 title:'Edit Product',
                 path:'/add-product',
-                isAuthenticated: req.isLoggedIn
+                isAuthenticated: req.session.isLoggedIn
             })
     })
 }
@@ -77,7 +77,7 @@ exports.getAdminProducts = (req,res) => {
                 data: products,
                 title:'Admin Product',
                 path:'/admin-products',
-                isAuthenticated: req.isLoggedIn
+                isAuthenticated: req.session.isLoggedIn
             })
         })
     

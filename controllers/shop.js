@@ -10,7 +10,7 @@ exports.getHome = (req,res)=>{
                 data: products,
                 title: 'My Shop',
                 path:'/',
-                isAuthenticated: req.isLoggedIn
+                isAuthenticated: req.session.isLoggedIn
             });
                 
         })
@@ -26,7 +26,7 @@ exports.getProducts = (req,res,next)=>{
                 data: products,
                 title: 'My Shop',
                 path:'/',
-                isAuthenticated: req.isLoggedIn
+                isAuthenticated: req.session.isLoggedIn
             });
         })
         .catch(err => {
@@ -44,7 +44,7 @@ exports.getProductDetail = (req,res) =>{
                 data: product,
                 title: product.title,
                 path: '/product-detail',
-                isAuthenticated: req.isLoggedIn
+                isAuthenticated: req.session.isLoggedIn
         })
     })
     .catch(err => {
@@ -77,7 +77,7 @@ req.user.populate('cart.items.productId').execPopulate()
             totalPrice: req.user.cart.total,
             title: 'Cart',
             path:'/cart',
-            isAuthenticated: req.isLoggedIn
+            isAuthenticated: req.session.isLoggedIn
         });
     
     })
@@ -92,7 +92,7 @@ exports.getOrders = (req,res) =>{
             orders: orders,
             title: 'Orders',
             path:'/orders',
-            isAuthenticated: req.isLoggedIn
+            isAuthenticated: req.session.isLoggedIn
         });
     })
 }
@@ -110,7 +110,7 @@ exports.checkout = (req,res) =>{
         // data: products,
         title: 'checkout',
         path:'/checkout',
-        isAuthenticated: req.isLoggedIn
+        isAuthenticated: req.session.isLoggedIn
     });
 }
 
