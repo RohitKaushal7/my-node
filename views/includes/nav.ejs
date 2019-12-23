@@ -5,6 +5,9 @@
                 <a href="/" class="brand-logo">My Shop</a>
                 <a href="#" data-target="mobile" class="sidenav-trigger"><b>|||</b></a>
                 <ul class="right hide-on-med-and-down">
+                    <% if(user) {%>
+                        <li><div class="chip black"><b><a href="/">Hi <%= user.name %> </a></b></div></li>
+                    <% } %>  
                     <li class=" <%= path == '/'?'active':'' %> "><a href="/">Shop</a></li>
                     <li class=" <%= path == '/products'?'active':'' %> "><a href="/products">Products</a></li>
                     <% if(isAuthenticated) { %>
@@ -16,10 +19,12 @@
                     <li> | </li>
                     <% if(!isAuthenticated) { %>
                         <li class=" <%= path == '/login'?'active':'' %> "><a href="/login">Login</a></li>
+                        <li class=" <%= path == '/signup'?'active':'' %> "><a href="/signup">Sign Up</a></li>
                     <% } else {%>
                         <li class=" <%= path == '/logout'?'active':'' %> ">
                             <form action="/logout" method="POST">
-                                <button class="btn grey darken-4" type="submit">Logout</button>
+                                <button class="btn-flat white-text grey darken-4" type="submit">Logout</button>
+                                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                             </form>
                         </li>
                     <% } %> 
@@ -27,12 +32,40 @@
             </div>
         </nav>
         <ul class="sidenav" id="mobile" style="z-index: 100;">
-                <li class=" <%= path == '/'?'active':'' %> "><a href="/">Shop</a></li>
-                <li class=" <%= path == '/products'?'active':'' %> "><a href="/products">Products</a></li>
-                <li class=" <%= path == '/cart'?'active':'' %> "><a href="/cart">Cart</a></li>
-                <li class=" <%= path == '/orders'?'active':'' %> "><a href="/orders">Orders</a></li>
-                <!-- <li class=" <%= path == '/admin-products'?'active':'' %> "><a href="/admin-products">Admin Product</a></li> -->
-                <li class=" <%= path == '/add-product'?'active':'' %> "><a href="/add-product">Add Product</a></li>
+
+            <% if(!isAuthenticated) { %>
+                <li class=" <%= path == '/login'?'active':'' %> "><a href="/login">Login</a></li>
+                <li class=" <%= path == '/signup'?'active':'' %> "><a href="/signup">Sign Up</a></li>
+            <% } else {%>
+
+                <li>
+                    <div class="user-view">
+                        <div class="background"><img src="/img/dummy.jpg" alt=""></div>
+                        <a href=""><img src="/img/dummy.jpg" class="circle" alt=""></span></a>
+                        <a href=""><span class="white-text name"><%= user.name %> </span></a>
+                        <a href=""><span class="white-text email"><%= user.email %> </span></a>
+                        <a>
+                            <form action="/logout" method="POST">
+                                <button class="btn-flat btn-small transparent white-text right-align" type="submit">Logout</button>
+                                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                            </form>
+                        </a>
+                    </div>
+                </li>
+
+                <!-- <li class=" <%= path == '/logout'?'active':'' %> ">
+                    
+                </li> -->
+            <% } %>
+
+            <li class=" <%= path == '/'?'active':'' %> "><a href="/">Shop</a></li>
+            <li class=" <%= path == '/products'?'active':'' %> "><a href="/products">Products</a></li>
+            <% if(isAuthenticated) { %>
+            <li class=" <%= path == '/cart'?'active':'' %> "><a href="/cart">Cart</a></li>
+            <li class=" <%= path == '/orders'?'active':'' %> "><a href="/orders">Orders</a></li>
+                <li class=" <%= path == '/admin-products'?'active':'' %> "><a href="/admin-products">Admin Product</a></li>
+                <li class=" <%= path == '/add-product'?'active':'' %> "><a href="/add-product">Add Product</a></li> 
+            <% } %> 
         </ul>
     </div>
 </header>

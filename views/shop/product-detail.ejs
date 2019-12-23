@@ -35,6 +35,7 @@
                     <div class="card-action">
                         <% if(isAuthenticated){ %> 
                             <form action="/cart" method="POST">
+                                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                                 <button type="submit" class="btn-flat waves-effect green lighten-5">Add to Cart</button>
                                 <input type="hidden" name="productId" value="<%= data._id %>">
                             </form>

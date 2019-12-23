@@ -5,8 +5,8 @@ exports.getAddPage = (req,res,next)=>{
         product:null,
         editing: false,
         title:'Add Product',
-        path:'/add-product',
-        isAuthenticated: req.session.isLoggedIn
+        path:'/add-product'
+        
     })
 }
 
@@ -20,8 +20,8 @@ exports.getEditPage = (req,res,next)=>{
                 product: product,
                 editing: true,
                 title:'Edit Product',
-                path:'/add-product',
-                isAuthenticated: req.session.isLoggedIn
+                path:'/add-product'
+                
             })
     })
 }
@@ -71,13 +71,13 @@ exports.deleteProduct = (req,res) => {
 
 
 exports.getAdminProducts = (req,res) => {
-    Product.find()
+    Product.find({userId: req.user._id})
         .then( products =>{
             res.render('admin/products',{
                 data: products,
                 title:'Admin Product',
-                path:'/admin-products',
-                isAuthenticated: req.session.isLoggedIn
+                path:'/admin-products'
+                
             })
         })
     

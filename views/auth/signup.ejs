@@ -7,11 +7,18 @@
         <div class="container">
                 <div class="row">
                     <div class="col s12 m6  center">
-                        <form method="POST" action="/login" class="form-login">
+                        <form method="POST" action="/signup" class="form-signup">
                             <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                             <div class="row">
                                 <div class="input-field col s12">
-                                    <input required type="text" class="validate" name="email" id="email"/>
+                                    <input required type="text" class="validate" name="name" id="name"/>
+                                    <label for="name">name</label>
+                                    <span class="helper-text" data-error="please enter this field" data-success="^"></span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="input-field col s12">
+                                    <input required type="email" class="validate" name="email" id="email"/>
                                     <label for="email">email</label>
                                     <span class="helper-text email-msg" data-error="please enter this field" data-success="^"></span>
                                 </div>
@@ -20,15 +27,22 @@
                                 <div class="input-field col s12">
                                     <input required type="password" class="validate" name="password" id="password"/>
                                     <label for="password">password</label>
-                                    <span class="helper-text pass-msg" data-error="please enter this field" data-success="^"></span>
+                                    <span class="helper-text" data-error="please enter this field" data-success="^"></span>
                                 </div>
                             </div>
-                                <div class="row error">
-                                    
+                            <div class="row">   
+                                <div class="input-field col s12">
+                                    <input type="password" class="validate" name="confirmPassword" id="confirmPassword"/>
+                                    <label for="confirmPassword">confirm password</label>
+                                    <span class="helper-text conf-msg" data-error="please enter this field" data-success="^"></span>
                                 </div>
+                            </div>
+                            <div class="row error">
+                                
+                            </div>    
                             <div class="row">
                                 <div class="col s12">
-                                    <button type="submit" class="btn blue waves-effect waves-dark">Login</button>
+                                    <button type="submit" class="btn blue waves-effect waves-dark">Sign Up</button>
                                 </div>
                             </div>
                         </form>
@@ -39,30 +53,37 @@
 
     <script>
         let error = document.querySelector('.error');
-        document.querySelector('.form-login').addEventListener('submit',function(e){
+        document.querySelector('.form-signup').addEventListener('submit',function(e){
             e.preventDefault();
             var xhr = new XMLHttpRequest();
+            let name = this.name.value;
             let email = this.email.value;
             let password = this.password.value;
+            let confirmPassword = this.confirmPassword.value;
+            
             console.log(email+password)
-            xhr.open('POST','/login',true);
+            xhr.open('POST','/signup',true);
             xhr.setRequestHeader('Content-type','application/x-www-form-urlencoded');
-            xhr.send(`email=${email}&password=${password}&_csrf=<%= csrfToken %>`);
+            
+            if(password==confirmPassword){
+                xhr.send(`name=${name}&email=${email}&password=${password}&_csrf=<%= csrfToken %>`);
+            }
+            else{
+                document.querySelector('#confirmPassword').classList.add('invalid');
+                document.querySelector('.conf-msg').setAttribute('data-error','Passwords did not Match.')
+            }
+
             xhr.onreadystatechange = function (){
                 if(xhr.readyState === 4){
                     if(xhr.status === 200){
                         let res = xhr.responseText;
                         console.log(res)
                         if(res=='Ok'){
-                            window.location = '/';
-                        }
-                        else if(res == 'Invalid Password'){
-                            document.querySelector('#password').classList.add('invalid');
-                            document.querySelector('.pass-msg').setAttribute('data-error','Invalid Password')
+                            window.location = '/login';
                         }
                         else{
                             document.querySelector('#email').classList.add('invalid');
-                            document.querySelector('.email-msg').setAttribute('data-error','Invalid Email')
+                            document.querySelector('.email-msg').setAttribute('data-error','An Account with this Email already exists.')
                         }
                     }
                 }
@@ -71,4 +92,5 @@
             
         })
     </script>
+
 <%- include('../includes/end.ejs') %> 

@@ -25,6 +25,7 @@
                         </div>
                         <div class="card-action ">
                             <form style="display: inline-block;" action="/cart" id="<%= p._id %>" method="POST">
+                                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                                 <% if(isAuthenticated) { %>
                                     <button type="submit" class="btn-flat waves-effect green lighten-5">Add to Cart</button>
                                 <% } %> 
@@ -46,6 +47,8 @@
         </div>
     </main>
 
+    <script src="/js/animate.js"></script>
+
     <% if(isAuthenticated) { %>
         <script>
 
@@ -57,7 +60,7 @@
                     console.log(this)
                     xhr.open('POST','/cart',true);
                     xhr.setRequestHeader('Content-type','application/x-www-form-urlencoded');
-                    xhr.send(`productId=${id}`);
+                    xhr.send(`productId=${id}&_csrf=<%= csrfToken %>`);
                     xhr.onreadystatechange = function (){
                         if(xhr.readyState === 4){
                             if(xhr.status === 200){

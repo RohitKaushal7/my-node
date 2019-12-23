@@ -9,6 +9,7 @@
             <div class="col s12 m6 center">
                     <div class="row ">
                         <form method="POST" action="<%= editing ? '/edit-product' : '/add-product' %>" class="col s12">
+                            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                             <div class="row">
                                 <div class="input-field col s12 m6">
                                     <input required type="text" class="validate" name="title" id="title" value="<%= product ? product.title : '' %>"/>
@@ -44,7 +45,8 @@
             </div>
         </div>
     </main>
-
+    
+    <script src="/js/animate.js"></script>
     <!-- <script>
         document.querySelector('form').addEventListener('submit',function(e){
             e.preventDefault();

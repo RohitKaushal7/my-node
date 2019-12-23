@@ -9,8 +9,8 @@ exports.getHome = (req,res)=>{
             res.render('shop/index',{
                 data: products,
                 title: 'My Shop',
-                path:'/',
-                isAuthenticated: req.session.isLoggedIn
+                path:'/'
+                
             });
                 
         })
@@ -22,11 +22,11 @@ exports.getHome = (req,res)=>{
 exports.getProducts = (req,res,next)=>{
     Product.find()
         .then(products =>{
-            res.render('shop/index',{
+            res.render('shop/product-list',{
                 data: products,
                 title: 'My Shop',
-                path:'/',
-                isAuthenticated: req.session.isLoggedIn
+                path:'/products'
+                
             });
         })
         .catch(err => {
@@ -43,8 +43,8 @@ exports.getProductDetail = (req,res) =>{
             res.render('shop/product-detail',{
                 data: product,
                 title: product.title,
-                path: '/product-detail',
-                isAuthenticated: req.session.isLoggedIn
+                path: '/product-detail'
+                
         })
     })
     .catch(err => {
@@ -76,8 +76,8 @@ req.user.populate('cart.items.productId').execPopulate()
             data: user.cart.items,
             totalPrice: req.user.cart.total,
             title: 'Cart',
-            path:'/cart',
-            isAuthenticated: req.session.isLoggedIn
+            path:'/cart'
+            
         });
     
     })
@@ -91,8 +91,8 @@ exports.getOrders = (req,res) =>{
         res.render('shop/orders',{
             orders: orders,
             title: 'Orders',
-            path:'/orders',
-            isAuthenticated: req.session.isLoggedIn
+            path:'/orders'
+            
         });
     })
 }
@@ -109,8 +109,8 @@ exports.checkout = (req,res) =>{
     res.render('shop/checkout',{
         // data: products,
         title: 'checkout',
-        path:'/checkout',
-        isAuthenticated: req.session.isLoggedIn
+        path:'/checkout'
+        
     });
 }
 

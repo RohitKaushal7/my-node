@@ -1,5 +1,10 @@
 <%- include('../includes/head.ejs') %> 
     <link rel="stylesheet" href="css/404.css">
+    <style>
+        :root{
+            font-size: 12px;
+        }
+    </style>
 </head>
 <body>
     <%- include('../includes/nav.ejs') %> 
@@ -12,12 +17,12 @@
 
             <% for (p of data) { %>
 
-                <div class="col s12 m3">
+                <div class="col s12 m2">
                     <div class="card hoverable">
-                        <div class="card-image">
+                        <!-- <div class="card-image">
                             <img src="<%= p.img %> " alt="">
                             <div class="card-title"><%= p.title %> </div>
-                        </div>
+                        </div> -->
                         <div class="card-content prod">
                             <b><%= p.title %> </b>
                             <p style="color:#444"> <em style="color:#777"></em> <br><%= p.desc %></p>
@@ -25,13 +30,14 @@
                         </div>
                         <div class="card-action ">
                             <form style="display: inline-block;" action="/cart" id="<%= p._id %>" method="POST">
+                                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                                 <% if(isAuthenticated) { %>
-                                    <button type="submit" class="btn-flat waves-effect green lighten-5">Add to Cart</button>
+                                    <button type="submit" class="btn-floating btn-small waves-effect green lighten-2">Add to Cart</button>
                                 <% } %> 
                                 <input type="hidden" name="productId" value="<%= p._id %>">
                             </form>
                             <form style="display: inline-block;" action="/products/<%= p._id %>" method="GET">
-                                    <button type="submit" class="btn-flat waves-effect green lighten-5">See More</button>
+                                    <button type="submit" class="btn-flat btn-small waves-effect green lighten-5">See More</button>
                                 </form>
                                 
                         </div>
@@ -46,6 +52,8 @@
         </div>
     </main>
 
+    <script src="/js/animate.js"></script>
+
     <% if(isAuthenticated) { %>
         <script>
 
@@ -57,7 +65,7 @@
                     console.log(this)
                     xhr.open('POST','/cart',true);
                     xhr.setRequestHeader('Content-type','application/x-www-form-urlencoded');
-                    xhr.send(`productId=${id}`);
+                    xhr.send(`productId=${id}&_csrf=<%= csrfToken %>`);
                     xhr.onreadystatechange = function (){
                         if(xhr.readyState === 4){
                             if(xhr.status === 200){

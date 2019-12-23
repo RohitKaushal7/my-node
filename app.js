@@ -1,10 +1,13 @@
 const path = require('path')
+const fs = require('fs')
 
 const express = require('express')
 const bodyParser = require('body-parser')
 const mongoose = require('mongoose')
 const session = require('express-session')
 const MongoDBStore = require('connect-mongodb-session')(session); 
+const csrf = require('csurf')
+const morgan = require('morgan')
 
 const admin = require('./routes/admin')
 const shop = require('./routes/shop')
@@ -19,8 +22,9 @@ const app = express();
 const store = new MongoDBStore({
     uri: MONGO_URI,
     collection: 'sessions'
-
 })
+
+const csrfProtection = csrf();
 
 app.set('view engine','ejs')
 app.set('views','views')
@@ -38,9 +42,9 @@ app.use(
 
 app.use((req,res,next)=>{
     if(req.session.user){
-        User.findById(req.session.user._id) //'5dfb73ce34b67f155b5ab878'
+        User.findById(req.session.user._id)
         .then(user=>{
-            console.log(user);
+            // console.log(user);
             req.user = user;
             next();
         })
@@ -54,6 +58,20 @@ app.use((req,res,next)=>{
     }
 })
 
+
+app.use(csrfProtection);
+
+const logFileStream = fs.createWriteStream(path.join(__dirname,"access.log"),{flags: 'a'});
+app.use(morgan('combined',{stream: logFileStream}))
+
+app.use((req,res,next)=>{
+    res.locals.isAuthenticated = req.session.isLoggedIn;
+    res.locals.csrfToken = req.csrfToken();
+    res.locals.user = req.user || null;
+
+    next();
+})
+
 app.use(admin.router);
 app.use(shop.router);
 app.use(auth);
@@ -62,20 +80,6 @@ app.use('/', errorController.get404)
 
 
 mongoose.connect(MONGO_URI).then(result=>{
-
-    User.findOne().then(user=>{
-        if(!user){
-            const user = new User({
-                name: "Rohit Kaushal",
-                email: "rohitkk252550@gmail.com",
-                cart:{
-                    items:[],
-                    total:0
-                }
-            })
-            user.save();
-        }
-    })
     app.listen(3000,()=>{
         console.log('running at localhost:3000');
     })

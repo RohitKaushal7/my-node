@@ -30,6 +30,7 @@
                             <form style="display: inline-block;" action="/delete-product" method="POST">
                                 <button type="submit" class="btn waves-effect red">Delete</button>
                                 <input type="hidden" name="productId" value="<%= p._id %>" id="">
+                                <input type="hidden" name="_csrf" value="<%= csrfToken %> ">
                             </form>
                         </div>
                     </div>
@@ -42,4 +43,6 @@
             <% } %>
         </div>
     </main>
+    <script src="/js/animate.js"></script>
+    
 <%- include('../includes/end.ejs') %> 

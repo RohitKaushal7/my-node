@@ -5,18 +5,9 @@
         <%- include('../includes/nav.ejs') %> 
 
         <div class="container">
-            <!-- <ul class="collection">
-                <% for(prod of data) { %>
-                    <li class="collection-item"><%= prod.productId.title %>  
-                        <span class="badge btn waves-effect green lighten-2 small plus" id="p<%= prod.productId._id %>"><b style="color: white;">+</b></span>
-                        <span class="badge green lighten-4 count"> <%= prod.qty %>  </span>
-                        <span class="badge btn waves-effect red lighten-2 small minus" id="p<%= prod.productId._id %>"><b style="color: white;">-</b></span>
-                    </li>
-                <% } %>              
-            </ul> -->
         
             <ul class="collapsible" data-collapsible="expandable">
-                <% for(prod of data) { %>
+                <% for(prod of data) { if(prod.productId){ %>
                     <li>
                         <div class="collapsible-header"  style="display: block;">
                             <b><%= prod.productId.title %></b> 
@@ -32,7 +23,7 @@
                         
                         </div>
                     </li>
-                <% } %>              
+                <% }} %>              
             </ul>
 
             <div class="card grey darken-4 hoverable">
@@ -48,6 +39,8 @@
             
         </div>
 
+        <script src="/js/animate.js"></script>
+
         <script>
             var totalPrice =document.querySelector('.totalPrice');
             document.querySelectorAll('.plus').forEach(plus=>{
@@ -56,7 +49,7 @@
                     id = this.id;
                     xhr.open('POST','/cart-add',true);
                     xhr.setRequestHeader('Content-type','application/x-www-form-urlencoded');
-                    xhr.send(`productId=${id}`);
+                    xhr.send(`productId=${id}&_csrf=<%= csrfToken %>`);
                     xhr.onreadystatechange = function (){
                         if(xhr.readyState === 4){
                             if(xhr.status === 200){
@@ -78,7 +71,7 @@
                     id = this.id;
                     xhr.open('POST','/cart-remove',true);
                     xhr.setRequestHeader('Content-type','application/x-www-form-urlencoded');
-                    xhr.send(`productId=${id}`);
+                    xhr.send(`productId=${id}&_csrf=<%= csrfToken %>`);
                     xhr.onreadystatechange = function (){
                         if(xhr.readyState === 4){
                             if(xhr.status === 200){
