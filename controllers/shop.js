@@ -1,18 +1,26 @@
 const Product = require('../models/product')
 const Order = require('../models/order')
 
+const NP = 2;
+const NI = 3;
 // Exports ...
 
 exports.getHome = (req,res)=>{
-    Product.find()
+    let page = req.query.page;
+    let totalPages;
+    Product.find().count()
+        .then(total =>{
+            totalPages = Math.ceil(total/NI);
+            return Product.find().skip((page-1)*NI).limit(NI)
+        })
         .then(products =>{
-            res.render('shop/index',{
+            res.render('shop/product-list',{
                 data: products,
                 title: 'My Shop',
-                path:'/'
-                
+                path:'/products',
+                page:page,
+                totalPages: totalPages
             });
-                
         })
         .catch(err => {
             console.log(err);
@@ -20,13 +28,20 @@ exports.getHome = (req,res)=>{
 }
 
 exports.getProducts = (req,res,next)=>{
-    Product.find()
+    let page = req.query.page;
+    let totalPages;
+    Product.find().count()
+        .then(total =>{
+            totalPages = Math.ceil(total/NP);
+            return Product.find().skip((page-1)*NP).limit(NP)
+        })
         .then(products =>{
             res.render('shop/product-list',{
                 data: products,
                 title: 'My Shop',
-                path:'/products'
-                
+                path:'/products',
+                page:page,
+                totalPages: totalPages
             });
         })
         .catch(err => {

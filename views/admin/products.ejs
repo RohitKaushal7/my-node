@@ -24,13 +24,13 @@
                         </div>
                         <div class="card-action ">
                             <form style="display: inline-block;" action="/edit-product/<%= p._id %> " method="GET">
-                                <button type="submit" class="btn waves-effect blue">Edit</button>
+                                <button type="submit" class="btn waves-effect blue"><i class="material-icons tiny prefix">edit</i></button>
                                 <input type="hidden" name="productId" value="<%= p._id %>" id="">
                             </form>
                             <form style="display: inline-block;" action="/delete-product" method="POST">
-                                <button type="submit" class="btn waves-effect red">Delete</button>
+                                <button type="submit" class="btn waves-effect red"><i class="material-icons prefix">delete</i></button>
                                 <input type="hidden" name="productId" value="<%= p._id %>" id="">
-                                <input type="hidden" name="_csrf" value="<%= csrfToken %> ">
+                                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                             </form>
                         </div>
                     </div>

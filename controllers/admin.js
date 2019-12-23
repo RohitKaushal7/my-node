@@ -43,26 +43,28 @@ exports.postProduct = (req,res) => {
 
 exports.postEditProduct = (req,res) => {
     // console.log(req.body);
-    Product.findById(req.body.productId)
+    Product.findOne({_id:req.body.productId, userId: req.user._id})
         .then(product=>{
-            product.title = req.body.title;
-            product.desc = req.body.desc;
-            product.price = req.body.price;
-            product.img = req.body.img;
-            return product.save();
+            if(product){
+                product.title = req.body.title;
+                product.desc = req.body.desc;
+                product.price = req.body.price;
+                product.img = req.body.img;
+                product.save().then(()=>{
+                    console.log('UPDATED product')
+                })
+                .catch(err=>{
+                    console.log(err);
+                });
+            }
         })
-            .then(()=>{
-                console.log('UPDATED product')
-            })
-            .catch(err=>{
-                console.log(err);
-            })
+            
     res.redirect('/admin-products');
 }
 
 exports.deleteProduct = (req,res) => {
     // console.log(req.body);
-    Product.findByIdAndDelete(req.body.productId).then(result=>{
+    Product.deleteOne({_id: req.body.productId, userId: req.user._id}).then(result=>{
         console.log('DELETED..!')
     });
     res.redirect('/admin-products')

@@ -11,6 +11,7 @@
                             <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                             <div class="row">
                                 <div class="input-field col s12">
+                                    <i class="material-icons prefix">face</i>
                                     <input required type="text" class="validate" name="name" id="name"/>
                                     <label for="name">name</label>
                                     <span class="helper-text" data-error="please enter this field" data-success="^"></span>
@@ -18,6 +19,7 @@
                             </div>
                             <div class="row">
                                 <div class="input-field col s12">
+                                    <i class="material-icons prefix">mail</i>
                                     <input required type="email" class="validate" name="email" id="email"/>
                                     <label for="email">email</label>
                                     <span class="helper-text email-msg" data-error="please enter this field" data-success="^"></span>
@@ -25,6 +27,7 @@
                             </div>
                             <div class="row">
                                 <div class="input-field col s12">
+                                    <i class="material-icons prefix">fingerprint</i>
                                     <input required type="password" class="validate" name="password" id="password"/>
                                     <label for="password">password</label>
                                     <span class="helper-text" data-error="please enter this field" data-success="^"></span>
@@ -32,6 +35,7 @@
                             </div>
                             <div class="row">   
                                 <div class="input-field col s12">
+                                    <i class="material-icons prefix">lock</i>
                                     <input type="password" class="validate" name="confirmPassword" id="confirmPassword"/>
                                     <label for="confirmPassword">confirm password</label>
                                     <span class="helper-text conf-msg" data-error="please enter this field" data-success="^"></span>
@@ -51,6 +55,7 @@
         </div>
     </main>
 
+    <script src="/js/animate.js"></script>
     <script>
         let error = document.querySelector('.error');
         document.querySelector('.form-signup').addEventListener('submit',function(e){

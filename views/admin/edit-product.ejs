@@ -12,22 +12,26 @@
                             <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                             <div class="row">
                                 <div class="input-field col s12 m6">
+                                    <i class="material-icons prefix">book</i>
                                     <input required type="text" class="validate" name="title" id="title" value="<%= product ? product.title : '' %>"/>
                                     <label for="title">Title</label>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="input-field col s12">
-                                    <input required type="text" class="validate" name="desc" id="desc" value="<%= product ? product.desc : '' %>"/>
+                                    <i class="material-icons prefix">subject</i>
+                                    <textarea required type="text" class="validate materialize-textarea" name="desc" id="desc" value="<%= product ? product.desc : '' %>"></textarea>
                                     <label for="desc">Description</label>
                                 </div>
                             </div>
                             <div class="row">
                                     <div class="input-field col s12 m6">
+                                        <i class="material-icons prefix">image</i>
                                         <input required type="text" class="validate" name="img" id="img" value="<%= product ? product.img : '' %>"/>
                                         <label for="img">image url</label>
                                     </div>
                                     <div class="input-field col s12 m6">
+                                        <i class="material-icons prefix">attach_money</i>
                                         <input required type="number" class="validate" name="price" id="price" value="<%= product ? product.price : '' %>"/>
                                         <label for="price">Price</label>
                                     </div>

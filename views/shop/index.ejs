@@ -50,6 +50,15 @@
             <h3>No Products here..!</h3>
             <% } %>
         </div>
+        <ul class="pagination">
+            <li class="<%= !(page-1)?'disabled':''%>"><a href="/?page=<%= (page-1)?(page-1):1 %>"><i class="material-icons">chevron_left</i></a></li>
+            <li class="<%= page == 1 ? 'active':'' %>"><a href="/?page=1">1</a></li>
+            <li class="<%= page == 2 ? 'active':'' %> waves-effect"><a href="/?page=2">2</a></li>
+            <li class="<%= page == 3 ? 'active':'' %> waves-effect"><a href="/?page=3">3</a></li>
+            <li class="<%= page == 4 ? 'active':'' %> waves-effect"><a href="/?page=4">4</a></li>
+            <li class="<%= page == 5 ? 'active':'' %> waves-effect"><a href="/?page=5">5</a></li>
+            <li class="<%= page == 5 ? 'disabled':'' %> waves-effect"><a href="/?page=<%= Number(page)+1 %>"><i class="material-icons">chevron_right</i></a></li>
+          </ul>
     </main>
 
     <script src="/js/animate.js"></script>
