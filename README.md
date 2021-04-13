@@ -1,5 +1,5 @@
 # Node-Complete
-This is just a practice project what I did was learning nodejs. 
+This is just a practice project that I did when I was learning nodejs. 
 
 - Nodejs 
 - ExpressJs - for http server
